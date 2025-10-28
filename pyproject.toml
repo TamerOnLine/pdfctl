@@ -3,33 +3,40 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pdfctl"
+name = "pdfctl"                         # تأكد أنه غير محجوز على PyPI
 version = "0.1.0"
-description = "Command-line & GUI/Streamlit tools to merge/split/extract/rotate PDFs."
+description = "Simple web UI to merge/split/extract/rotate PDFs using pypdf + Streamlit."
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = [
-  "pypdf>=5.1.0",
-  "typer>=0.12.5",
-  "rich>=13.7.1",
-  "streamlit>=1.50.0",
+license = {text = "MIT"}
+authors = [{name = "Tamer Hamad Faour"}]
+keywords = ["pdf","merge","split","rotate","streamlit","pypdf","webui"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
 ]
 
+dependencies = [
+  "pypdf>=5.1.0"
+]
+
+[project.optional-dependencies]
+web = ["streamlit>=1.50.0"]
+
 [project.scripts]
-pdfctl = "pdfctl.cli:app"
-pdfctl-gui = "pdfctl.gui:main"
 pdfctl-web = "pdfctl.web:main"
 
-# عند استخدام Streamlit سنثبتها ونشغلها بأمر streamlit مباشرة
-# أو يمكنك إضافة:
-# pdfctl-web = "pdfctl.app:main"
+[project.urls]
+Homepage = "https://github.com/your-user/pdfctl"
+Issues = "https://github.com/your-user/pdfctl/issues"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-exclude = ["out*", "build*", "dist*"]  # مهم لاستبعاد out
+exclude = ["out*", "build*", "dist*"]
 
 [tool.setuptools.package-data]
 "pdfctl" = []
