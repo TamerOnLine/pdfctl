@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 This project follows [Semantic Versioning](https://semver.org/).
 
 ---
+## [0.1.3] - 2025-10-28
+### Added
+- Auto port detection (automatic fallback when port is busy)
+- Improved console messages (clearer app launch output)
+
+### Changed
+- Streamlit launcher now handles exceptions gracefully
+
+### Fixed
+- Prevented infinite loop when starting app multiple times
+
+---
+
 ## [0.1.2] - 2025-10-28
 ### ✨ Added
 - Added command-line argument `--port` for flexible Streamlit server port selection.
