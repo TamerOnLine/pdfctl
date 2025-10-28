@@ -1,27 +1,43 @@
+# -*- coding: utf-8 -*-
+"""
+web.py — Streamlit-based web interface for PDFCTL.
+Runs the PDF control UI (merge, split, extract, rotate) via Streamlit.
+"""
+
 import os
 import argparse
-import streamlit as st
+from pathlib import Path
+
 
 def main():
     """
-    Initializes and runs the Streamlit PDF control application.
+    Launch the Streamlit application with an optional port argument.
 
-    Sets up the Streamlit page configuration and displays the title and status.
-    Parses command-line arguments to determine the server port.
+    This function sets up and runs the Streamlit server that hosts the PDFCTL
+    web interface, which provides tools for managing PDF files such as merging,
+    splitting, extracting, and rotating.
+
+    Args:
+        --port (int, optional): The port to run the Streamlit server on.
+            Defaults to 8501.
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--port", type=int, default=8501, help="Port to run the Streamlit app on.")
+    parser = argparse.ArgumentParser(description="Run the PDFCTL web interface.")
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=8501,
+        help="Port to run the Streamlit server on."
+    )
     args = parser.parse_args()
 
-    st.set_page_config(page_title="PDF Control", layout="wide")
-    st.title("PDF Tools — PDFCTL")
+    app_path = Path(__file__).resolve()
 
-    # Display readiness status
-    st.write("The application is ready!")
+    print(f"[info] Starting Streamlit server on port {args.port}...")
+    print(f"[info] Launching app: {app_path}")
 
-    # Return parsed arguments for external use
-    return args
+    # Correct method to start Streamlit (automatically opens in the browser)
+    os.execvp("streamlit", ["streamlit", "run", str(app_path), "--server.port", str(args.port)])
+
 
 if __name__ == "__main__":
-    args = main()
-    os.system(f"streamlit run {__file__} --server.port={args.port}")
+    main()

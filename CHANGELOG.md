@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 This project follows [Semantic Versioning](https://semver.org/).
 
 ---
+## [0.1.2] - 2025-10-28
+### ✨ Added
+- Added command-line argument `--port` for flexible Streamlit server port selection.
+- Added automatic detection of the app path for cleaner execution.
+
+### 🛠️ Changed
+- Restored full Streamlit launch behavior (`os.execvp`), allowing the app to auto-open in the browser.
+- Improved CLI messages and startup logs for better developer feedback.
+
+### 🐞 Fixed
+- Fixed “missing ScriptRunContext” warning when running `pdfctl-web`.
+- Fixed issue where the app would not open in the browser automatically.
+
+---
+
 ## [0.1.1] - 2025-10-28
 
 ### Added
