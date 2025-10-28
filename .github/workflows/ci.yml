@@ -10,27 +10,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      # Install the uv package manager
-      - uses: astral-sh/setup-uv@v3
+      - name: Set up uv (fast Python package manager)
+        uses: astral-sh/setup-uv@v3
 
-      # Install project with optional [web] extra
-      - name: Install project
-        run: uv pip install -e .[web]
+      # Option 3: try venv first; if that fails, fall back to system install.
+      - name: Ensure environment and install project
+        run: |
+          # Try to create a virtual environment (no-op if it already exists)
+          uv venv || echo "Virtual env already exists or not supported."
 
-      # Run tests only if a "tests" directory exists
+          # Try installing into the venv; if it fails, install into the system
+          uv pip install -e .[web] --link-mode=copy || uv pip install -e .[web] --system --link-mode=copy
+
+      # Skip tests if the 'tests' directory does not exist
       - name: Run tests (if present)
-        run: python run_tests_if_present.py
+        run: |
+          if [ -d tests ]; then
+            python -m unittest discover -s tests -t .
+          else
+            echo "No tests/ directory; skipping."
+          fi
 
-      # 🔧 Build package using uv (instead of python -m build)
       - name: Build package with uv
         run: uv build
 
-      # (Optional) Display generated artifacts
-      - name: List dist artifacts
+      - name: List build artifacts
         run: ls -lh dist
+
+      # Optional: upload artifacts so you can download wheels/sdists from the CI run
+      - name: Upload dist artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/**
