@@ -1,16 +1,19 @@
 name: Publish to PyPI
 on:
   push:
-    tags:
-      - "v*.*.*"
+    tags: ["v*.*.*"]
+
 jobs:
-  build-publish:
+  publish:
+    runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
       - run: uv build
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish to PyPI via Trusted Publishing
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
