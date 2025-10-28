@@ -162,6 +162,7 @@ Dev_requirements.txt
 
 # Local cache from the app
 .cache/
+.streamlit/
 
 # OS junk
 .DS_Store
@@ -170,3 +171,4 @@ Thumbs.db
 # Generated env info 
 env-info.txt
 out/
+
