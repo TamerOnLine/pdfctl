@@ -8,18 +8,29 @@ on:
 jobs:
   build-test:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
-        run: pip install -e .[web]
+      # Install the uv package manager
+      - uses: astral-sh/setup-uv@v3
 
+      # Install project with optional [web] extra
+      - name: Install project
+        run: uv pip install -e .[web]
 
+      # Run tests only if a "tests" directory exists
       - name: Run tests (if present)
         run: python run_tests_if_present.py
 
-      - name: Build package
-        run: python -m build
+      # 🔧 Build package using uv (instead of python -m build)
+      - name: Build package with uv
+        run: uv build
+
+      # (Optional) Display generated artifacts
+      - name: List dist artifacts
+        run: ls -lh dist
