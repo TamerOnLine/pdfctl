@@ -3,8 +3,8 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pdfctl"                         # تأكد أنه غير محجوز على PyPI
-version = "0.1.0"
+name = "pdfctl"                        
+version = "0.1.1"
 description = "Simple web UI to merge/split/extract/rotate PDFs using pypdf + Streamlit."
 readme = "README.md"
 requires-python = ">=3.9"

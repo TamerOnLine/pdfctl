@@ -1,22 +1,27 @@
-"""
-web.py - Entry point for launching the Streamlit web interface.
-"""
-
 import os
-import sys
-from pathlib import Path
+import argparse
+import streamlit as st
 
 def main():
     """
-    Launches the Streamlit application by locating 'app.py' and executing it.
+    Initializes and runs the Streamlit PDF control application.
 
-    Raises:
-        SystemExit: If 'app.py' is not found in the expected directory.
+    Sets up the Streamlit page configuration and displays the title and status.
+    Parses command-line arguments to determine the server port.
     """
-    app_path = Path(__file__).resolve().parent / "app.py"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--port", type=int, default=8501, help="Port to run the Streamlit app on.")
+    args = parser.parse_args()
 
-    if not app_path.exists():
-        print(f"[error] Streamlit file not found: {app_path}")
-        sys.exit(1)
+    st.set_page_config(page_title="PDF Control", layout="wide")
+    st.title("PDF Tools — PDFCTL")
 
-    os.execvp("streamlit", ["streamlit", "run", str(app_path)])
+    # Display readiness status
+    st.write("The application is ready!")
+
+    # Return parsed arguments for external use
+    return args
+
+if __name__ == "__main__":
+    args = main()
+    os.system(f"streamlit run {__file__} --server.port={args.port}")
